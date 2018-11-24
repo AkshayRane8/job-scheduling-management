@@ -20,7 +20,7 @@ import com.yashcreations.services.jsm.customer.dao.CustomerDAO;
 import com.yashcreations.services.jsm.customer.dao.model.Customer;
 import com.yashcreations.services.jsm.customer.dao.model.CustomerArrayWrapper;
 
-
+//job-scheduling-management Rest Resource Class : Class Level Path
 @Path("jobs/scheduling")
 public class JSONService {
 
