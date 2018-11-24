@@ -45,6 +45,27 @@ public class JSONService {
 	}
 
 	@POST
+	@Path("/customer/add")
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response addCustomer(Customer customer) {
+		CustomerDAO customerSimpleDAO = (CustomerDAO) applicationContext.getBean("customerSimpleDAO");
+		System.out.println("Customer :::::" + customer.getName());
+		try{
+		customerSimpleDAO.insert(customer);
+		customer.getOperationStaus().setStatus("SUCCESS");
+		customer.getOperationStaus().setCode("0000");
+		customer.getOperationStaus().setMessage("Operation Completed Successfully");
+		return Response.status(201).entity(customer).build();
+		}catch(Exception ex){
+			customer.getOperationStaus().setStatus("FAILED");
+			customer.getOperationStaus().setCode("SQL001");
+			customer.getOperationStaus().setMessage(ex.getMessage());
+			return Response.status(400).entity(customer).build();
+		}
+	}
+	
+	@POST
 	@Path("/customers/")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -53,7 +74,7 @@ public class JSONService {
 		System.out.println("Customer ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" + customersarray.getCustomerArray()[0].getName());
 		//System.out.println("Custmer Id :::" +  customer.getCustId());
 		Customer[] customers = new Customer[2];
-		customers[0] = customerSimpleDAO.getCustomer("1");
+		customers[0] = customerSimpleDAO.getCustomer("4");
 		customers[1] = customerSimpleDAO.getCustomer("2");
 		return customers;
 	}
